@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tagesplan – Gebr. Estermann AG</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0d0f14;
+    --surface: #161920;
+    --sur2:    #1c2030;
+    --border:  rgba(255,255,255,0.06);
+    --text:    #dde1ed;
+    --dim:     #686e87;
+    --accent:  #5b9cf6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; overflow: hidden; }
+  .page { display: flex; flex-direction: column; height: 100vh; }
+
+  /* HEADER */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 15px 36px; background: var(--surface);
+    border-bottom: 1px solid var(--border); flex-shrink: 0;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: pulse 2.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.6)} }
+  .date-block { text-align: center; }
+  .woche { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+  .datum { font-size: 20px; font-weight: 700; }
+  .clock { font-family: 'DM Mono', monospace; font-size: 26px; font-weight: 500; color: var(--dim); min-width: 96px; text-align: right; }
+
+  /* TABLE */
+  .scroll { flex: 1; overflow-y: auto; padding: 18px 28px 22px; scrollbar-width: thin; scrollbar-color: #2a2f45 transparent; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0 5px; }
+  thead th { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); padding: 0 14px 10px; text-align: left; }
+  thead th:first-child { width: 220px; }
+  tbody tr { background: var(--surface); animation: fadeIn .35s ease both; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+  td { padding: 10px 14px; vertical-align: middle; }
+  td:first-child { border-radius: 9px 0 0 9px; }
+  td:last-child  { border-radius: 0 9px 9px 0; }
+
+  /* NAME CELL */
+  .name-cell { display: flex; align-items: center; gap: 11px; }
+  .avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; background: var(--sur2); color: var(--dim); border: 1px solid var(--border); }
+  .nm .sn { font-weight: 700; font-size: 15px; }
+  .nm .fn { font-size: 12px; color: var(--dim); }
+
+  /* BADGES */
+  .badges { display: flex; gap: 7px; flex-wrap: wrap; align-items: flex-start; }
+  .badge { display: flex; flex-direction: column; padding: 7px 13px; border-radius: 7px; min-width: 140px; max-width: 300px; position: relative; overflow: hidden; }
+  .badge::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,.07); border-radius:inherit; pointer-events:none; }
+  .bt { font-size: 9px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; opacity: .8; margin-bottom: 2px; }
+  .bl { font-size: 13px; font-weight: 600; line-height: 1.3; }
+  .bn { font-size: 11px; opacity: .72; margin-top: 3px; line-height: 1.35; white-space: pre-line; }
+
+  /* COLOURS – matching Visual Planning palette */
+  .col-grey     { background: #5c6470; color: #fff; }
+  .col-pink     { background: #c4127e; color: #fff; }
+  .col-salmon   { background: #b04848; color: #fff; }
+  .col-teal     { background: #1a6868; color: #c8f0f0; }
+  .col-lime     { background: #5e8800; color: #eeffc0; }
+  .col-cyan     { background: #1a6e7e; color: #c8f0f8; }
+  .col-peach    { background: #b86e28; color: #fff; }
+  .col-holiday  { background: repeating-linear-gradient(45deg,#a018b822,#a018b822 5px,#a018b811 5px,#a018b811 10px); border: 1px dashed #b830d0; color: #f0b0ff; }
+  .col-dark     { background: #222; color: #fff; border: 1px solid #3a3a3a; }
+  .col-default  { background: #1a6e7e; color: #c8f0f8; }
+
+  /* STATES */
+  .state { text-align: center; padding: 70px 20px; color: var(--dim); }
+  .state .ico { font-size: 44px; margin-bottom: 14px; }
+  .state p    { font-size: 17px; }
+
+  /* FOOTER */
+  footer { flex-shrink: 0; padding: 9px 32px; font-size: 11px; color: var(--dim); display: flex; justify-content: space-between; border-top: 1px solid var(--border); background: var(--surface); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="logo"><div class="dot"></div>Gebr. Estermann AG</div>
+    <div class="date-block">
+      <div class="woche" id="woche">–</div>
+      <div class="datum" id="datum">–</div>
+    </div>
+    <div class="clock" id="clock">–</div>
+  </header>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Mitarbeiter</th><th>Einsätze heute</th></tr></thead>
+      <tbody id="body">
+        <tr><td colspan="2"><div class="state"><div class="ico">⏳</div><p>Wird geladen…</p></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <span id="updated">–</span>
+    <span>Visual Planning · Auto-Refresh alle 5 Min.</span>
+  </footer>
+
+</div>
+<script>
+// ══════════════════════════════════════════════
+//  CONFIG – URL zur JSON-Datei
+//  Kann per ?json=URL überschrieben werden
+// ══════════════════════════════════════════════
+const JSON_URL = window.TAGESPLAN_JSON_URL
+  || new URLSearchParams(location.search).get('json')
+  || 'Tagesansicht.json';
+
+const REFRESH_MS = 5 * 60 * 1000;
+
+// ── Farb-Mapping: Baustellen-Bezeichnung → CSS-Klasse ──
+function col(baustelle, notiz) {
+  const b = (baustelle || '').toLowerCase();
+  const n = (notiz      || '').toLowerCase();
+  const s = b || n;
+  if (s.includes('ferien') || n.startsWith('vpexport'))        return 'col-holiday';
+  if (s.includes('service'))                                    return 'col-pink';
+  if (s.includes('neubau'))                                     return 'col-lime';
+  if (s.includes('umbau'))                                      return 'col-teal';
+  if (s.includes('sanierung'))                                  return 'col-salmon';
+  if (s.includes('bühlmann') || s.includes('buhlmann'))        return 'col-grey';
+  if (s.includes('stweg'))                                      return 'col-salmon';
+  if (s.includes('wüb') || s.includes('wub'))                  return 'col-dark';
+  if (s.includes('werkstatt') || s.includes('lager'))          return 'col-peach';
+  if (s.includes('lüftung') || s.includes('heizung'))          return 'col-cyan';
+  if (n && !b)                                                  return 'col-peach'; // nur Notiz, kein Ort
+  return 'col-default';
+}
+
+// ── Badge-Label: Baustellen-Feld aufteilen ──
+// Format im Export: "Bühlmann / Rothenburg" oder "STWEG / Rain"
+function parseBaustelle(raw) {
+  if (!raw) return { typ: '', ort: '' };
+  const parts = raw.split('/').map(s => s.trim());
+  return { typ: parts[0] || '', ort: parts.slice(1).join(', ') };
+}
+
+// ── Datensätze nach Vorname (+ Name falls vorhanden) gruppieren ──
+function group(records) {
+  const map = new Map();
+  records.forEach(r => {
+    const vn = (r['Vorname'] || r['vorname'] || '').trim();
+    const nn = (r['Name']    || r['name']    || '').trim();
+    if (!vn && !nn) return;
+    const key = `${nn}__${vn}`;
+    if (!map.has(key)) map.set(key, { nn, vn, rows: [] });
+    map.get(key).rows.push(r);
+  });
+  // Sortierung: Nachname wenn vorhanden, sonst Vorname
+  return [...map.values()].sort((a, b) =>
+    (a.nn || a.vn).localeCompare(b.nn || b.vn, 'de'));
+}
+
+// ── Ein Badge-HTML ──
+function badgeHtml(r) {
+  const raw   = r['Baustellen'] || r['baustellen'] || '';
+  const { typ, ort } = parseBaustelle(raw);
+  let notiz   = (r['Notiz'] || r['notiz'] || '').trim();
+  const isFerien = notiz.startsWith('VPEXPORT:');
+  if (isFerien) notiz = 'Ferien';
+
+  const cls   = col(raw, notiz);
+  const label = typ || (isFerien ? 'Ferien' : '');
+  const loc   = ort || '';
+  const note  = (!isFerien && notiz && notiz !== typ) ? notiz : '';
+
+  return `<div class="badge ${cls}">
+    ${label ? `<span class="bt">${x(label)}</span>` : ''}
+    ${loc   ? `<span class="bl">${x(loc)}</span>`   : ''}
+    ${note  ? `<span class="bn">${x(note)}</span>`  : ''}
+  </div>`;
+}
+
+// ── Render ──
+function render(records) {
+  const emps  = group(records);
+  const tbody = document.getElementById('body');
+  tbody.innerHTML = '';
+
+  if (!emps.length) {
+    tbody.innerHTML = `<tr><td colspan="2"><div class="state"><div class="ico">📭</div><p>Keine Einträge für heute</p></div></td></tr>`;
+    return;
+  }
+
+  emps.forEach((emp, i) => {
+    const tr  = document.createElement('tr');
+    tr.style.animationDelay = `${i * 30}ms`;
+    const ini = ((emp.nn?.[0] || '') + (emp.vn?.[0] || '')).toUpperCase();
+    const displayName    = emp.nn || emp.vn;
+    const displayGiven   = emp.nn ? emp.vn : '';
+    tr.innerHTML = `
+      <td>
+        <div class="name-cell">
+          <div class="avatar">${x(ini)}</div>
+          <div class="nm">
+            <div class="sn">${x(displayName)}</div>
+            <div class="fn">${x(displayGiven)}</div>
+          </div>
+        </div>
+      </td>
+      <td><div class="badges">${emp.rows.map(badgeHtml).join('')}</div></td>`;
+    tbody.appendChild(tr);
+  });
+
+  const n = new Date();
+  document.getElementById('updated').textContent =
+    `Aktualisiert: ${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
+}
+
+// ── Laden ──
+async function load() {
+  try {
+    const url = JSON_URL + (JSON_URL.includes('?') ? '&' : '?') + '_t=' + Date.now();
+    const res  = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    render(Array.isArray(data) ? data : (data.employees || []));
+  } catch (err) {
+    document.getElementById('body').innerHTML = `<tr><td colspan="2">
+      <div class="state"><div class="ico">⚠️</div>
+      <p>Ladefehler<br><small style="font-size:11px;opacity:.5">${x(err.message)}</small></p>
+      </div></td></tr>`;
+  }
+}
+
+// ── Uhr & Datum ──
+function p(n) { return String(n).padStart(2, '0'); }
+function x(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function tick() {
+  const n = new Date();
+  document.getElementById('clock').textContent = `${p(n.getHours())}:${p(n.getMinutes())}`;
+}
+function updateDate() {
+  const d = new Date();
+  const days   = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+  const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  const t = new Date(d); t.setHours(0,0,0,0);
+  t.setDate(t.getDate() + 3 - (t.getDay()+6)%7);
+  const w1   = new Date(t.getFullYear(), 0, 4);
+  const week = 1 + Math.round(((t - w1) / 86400000 - 3 + (w1.getDay()+6)%7) / 7);
+  document.getElementById('woche').textContent = `Woche ${week}`;
+  document.getElementById('datum').textContent  =
+    `${days[d.getDay()]} ${d.getDate()}. ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+updateDate();
+tick();
+setInterval(tick, 1000);
+load();
+setInterval(load, REFRESH_MS);
+</script>
+</body>
+</html>
