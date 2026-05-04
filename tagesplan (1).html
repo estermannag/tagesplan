@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tagesplan – Gebr. Estermann AG</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #111318;
+    --surface: #1a1d25;
+    --sur2:    #222630;
+    --border:  rgba(255,255,255,0.07);
+    --text:    #e2e6f0;
+    --dim:     #5a6078;
+    --accent:  #4f8ef7;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 960px;
+    min-height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    overflow-x: hidden;
+  }
+
+  .page { display: flex; flex-direction: column; min-height: 1080px; }
+
+  /* HEADER */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 11px 20px;
+    background: var(--surface);
+    border-bottom: 2px solid var(--accent);
+    flex-shrink: 0;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 9px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 7px var(--accent); animation: pulse 2.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.6)} }
+
+  .date-block { text-align: center; }
+  .woche { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+  .datum { font-size: 17px; font-weight: 700; font-family: 'Barlow Condensed', sans-serif; letter-spacing: .02em; }
+
+  .clock { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; color: var(--dim); min-width: 75px; text-align: right; letter-spacing: .05em; }
+
+  /* COLUMN HEADERS */
+  .col-headers {
+    display: grid;
+    grid-template-columns: 155px 1fr 1fr;
+    padding: 7px 14px 5px;
+    border-bottom: 1px solid var(--border);
+    gap: 4px;
+  }
+  .col-header {
+    font-size: 10px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--dim);
+    padding: 0 8px;
+  }
+  .col-header.vm { color: #e09030; }
+  .col-header.nm { color: #4f8ef7; }
+
+  /* SCROLL */
+  .scroll { flex: 1; overflow-y: auto; padding: 5px 14px 14px; scrollbar-width: thin; scrollbar-color: #2a2f45 transparent; }
+
+  /* ROW */
+  .row {
+    display: grid;
+    grid-template-columns: 155px 1fr 1fr;
+    gap: 4px;
+    margin-bottom: 4px;
+    animation: fadeIn .3s ease both;
+  }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+
+  /* NAME CELL */
+  .name-cell {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface);
+    border-radius: 7px;
+    padding: 7px 9px;
+    min-height: 50px;
+  }
+  .avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; flex-shrink: 0;
+    background: var(--sur2); color: var(--dim);
+    border: 1px solid var(--border);
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  .nm-text .sn { font-weight: 700; font-size: 14px; line-height: 1.2; }
+  .nm-text .fn { font-size: 11px; color: var(--dim); }
+
+  /* SLOT */
+  .slot { display: flex; flex-direction: column; gap: 3px; min-height: 50px; }
+
+  /* BADGE */
+  .badge {
+    flex: 1;
+    border-radius: 6px;
+    padding: 5px 9px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+    min-height: 48px;
+  }
+  .badge::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,.06); border-radius:inherit; pointer-events:none; }
+
+  .vm .badge { border-left: 3px solid rgba(224,144,48,.55); }
+  .nm .badge { border-left: 3px solid rgba(79,142,247,.55); }
+
+  .badge-mark { font-size: 9px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; opacity: .82; margin-bottom: 2px; font-family: 'Barlow Condensed', sans-serif; }
+  .badge-bez  { font-size: 13px; font-weight: 700; line-height: 1.2; }
+  .badge-adr  { font-size: 11px; opacity: .78; line-height: 1.2; }
+  .badge-note { font-size: 11px; opacity: .72; margin-top: 2px; line-height: 1.3; white-space: pre-line; font-style: italic; }
+
+  .empty { border-radius: 6px; min-height: 48px; background: rgba(255,255,255,.02); border: 1px dashed rgba(255,255,255,.05); }
+
+  /* FARBEN – direkt nach Markierung */
+  .m-service         { background: #c4127e; color: #fff; }
+  .m-umbau           { background: #1e6868; color: #c8f0f0; }
+  .m-ferien          { background: repeating-linear-gradient(45deg,#9910b033,#9910b033 5px,#9910b018 5px,#9910b018 10px); border:1px dashed #bb30cc; color:#f0b0ff; }
+  .m-vorfabrizieren  { background: #5e8800; color: #eeffc0; }
+  .m-werkstatt       { background: #a06020; color: #ffe0b0; }
+  .m-sanierung       { background: #b04040; color: #fff; }
+  .m-kellerheizung   { background: #b04040; color: #fff; }
+  .m-fertigmontage   { background: #5a6472; color: #fff; }
+  .m-rohmontage      { background: #963030; color: #fff; }
+  .m-neubau          { background: #6e9800; color: #eeffc0; }
+  .m-anzeichnen      { background: #1e5c99; color: #c8e0ff; }
+  .m-default         { background: #1e5070; color: #c0e0f8; }
+
+  /* FOOTER */
+  footer {
+    flex-shrink: 0; padding: 7px 22px;
+    font-size: 10px; color: var(--dim);
+    display: flex; justify-content: space-between;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    letter-spacing: .04em;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="logo"><div class="dot"></div>Gebr. Estermann AG</div>
+    <div class="date-block">
+      <div class="woche" id="woche">–</div>
+      <div class="datum" id="datum">–</div>
+    </div>
+    <div class="clock" id="clock">–</div>
+  </header>
+
+  <div class="col-headers">
+    <div class="col-header">Mitarbeiter</div>
+    <div class="col-header vm">☀ Vormittag</div>
+    <div class="col-header nm">◑ Nachmittag</div>
+  </div>
+
+  <div class="scroll">
+    <div id="planBody">
+      <div style="text-align:center;padding:60px;color:var(--dim)">⏳ Wird geladen…</div>
+    </div>
+  </div>
+
+  <footer>
+    <span id="updated">–</span>
+    <span>Visual Planning · Auto-Refresh alle 5 Min.</span>
+  </footer>
+
+</div>
+<script>
+const JSON_URL = window.TAGESPLAN_JSON_URL
+  || new URLSearchParams(location.search).get('json')
+  || 'Tagesansicht.json';
+const REFRESH_MS = 5 * 60 * 1000;
+
+// ── Slot-Logik ──
+// Startzeit 00:00 + Endzeit 12:00 → Vormittag
+// Startzeit 12:00 + Endzeit 00:00 → Nachmittag
+// Startzeit 00:00 + Endzeit 00:00 → Ganztags (beide)
+function getSlot(r) {
+  const st = (r['Startzeit'] || '00:00').trim();
+  const et = (r['Endzeit']   || '00:00').trim();
+  if (st === '00:00' && et === '12:00') return 'vm';
+  if (st === '12:00' && et === '00:00') return 'nm';
+  return 'both'; // Ganztags
+}
+
+// ── Farb-Klasse nach Markierung ──
+function markClass(m) {
+  const t = (m || '').toLowerCase();
+  if (t.includes('service'))                           return 'm-service';
+  if (t.includes('umbau'))                             return 'm-umbau';
+  if (t.includes('ferien'))                            return 'm-ferien';
+  if (t.includes('vorfab'))                            return 'm-vorfabrizieren';
+  if (t.includes('werkstatt') || t.includes('lager'))  return 'm-werkstatt';
+  if (t.includes('keller') && t.includes('heizung'))   return 'm-kellerheizung';
+  if (t.includes('sanierung'))                         return 'm-sanierung';
+  if (t.includes('fertigmontage'))                     return 'm-fertigmontage';
+  if (t.includes('rohmontage'))                        return 'm-rohmontage';
+  if (t.includes('neubau'))                            return 'm-neubau';
+  if (t.includes('anzeichnen'))                        return 'm-anzeichnen';
+  return 'm-default';
+}
+
+// ── Badge HTML ──
+function badgeHtml(r) {
+  const mark = (r['Markierung']  || '').trim();
+  const bez  = (r['Bezeichnung'] || '').trim();
+  const adr  = (r['Adresse']     || '').trim();
+  let notiz  = (r['Notiz']       || '').trim();
+  if (notiz.startsWith('VPEXPORT:')) notiz = '';
+
+  const cls = markClass(mark || notiz);
+  return `<div class="badge ${cls}">
+    ${mark  ? `<span class="badge-mark">${x(mark)}</span>`  : ''}
+    ${bez   ? `<span class="badge-bez">${x(bez)}</span>`    : ''}
+    ${adr   ? `<span class="badge-adr">${x(adr)}</span>`    : ''}
+    ${notiz ? `<span class="badge-note">${x(notiz)}</span>` : ''}
+  </div>`;
+}
+
+// ── Gruppieren nach Mitarbeiter ──
+function group(records) {
+  const map = new Map();
+  records.forEach(r => {
+    const vn = (r['Vorname'] || '').trim();
+    const nn = (r['Name']    || '').trim();
+    if (!vn && !nn) return;
+    const key = `${nn}__${vn}`;
+    if (!map.has(key)) map.set(key, { nn, vn, vm: [], nm: [] });
+    const emp  = map.get(key);
+    const slot = getSlot(r);
+    if (slot === 'vm'   || slot === 'both') emp.vm.push(r);
+    if (slot === 'nm'   || slot === 'both') emp.nm.push(r);
+  });
+  return [...map.values()].sort((a, b) =>
+    (a.nn || a.vn).localeCompare(b.nn || b.vn, 'de'));
+}
+
+// ── Render ──
+function render(records) {
+  const emps = group(records);
+  const body = document.getElementById('planBody');
+  body.innerHTML = '';
+
+  if (!emps.length) {
+    body.innerHTML = `<div style="text-align:center;padding:60px;color:var(--dim)">📭 Keine Einträge für heute</div>`;
+    return;
+  }
+
+  emps.forEach((emp, i) => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.style.animationDelay = `${i * 28}ms`;
+
+    const ini      = ((emp.nn?.[0]||'') + (emp.vn?.[0]||'')).toUpperCase();
+    const vmHtml   = emp.vm.length ? emp.vm.map(badgeHtml).join('') : `<div class="empty"></div>`;
+    const nmHtml   = emp.nm.length ? emp.nm.map(badgeHtml).join('') : `<div class="empty"></div>`;
+
+    row.innerHTML = `
+      <div class="name-cell">
+        <div class="avatar">${x(ini)}</div>
+        <div class="nm-text">
+          <div class="sn">${x(emp.nn || emp.vn)}</div>
+          <div class="fn">${x(emp.nn ? emp.vn : '')}</div>
+        </div>
+      </div>
+      <div class="slot vm">${vmHtml}</div>
+      <div class="slot nm">${nmHtml}</div>`;
+    body.appendChild(row);
+  });
+
+  const n = new Date();
+  document.getElementById('updated').textContent =
+    `Aktualisiert: ${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
+}
+
+// ── Laden ──
+async function load() {
+  try {
+    const url = JSON_URL + (JSON_URL.includes('?') ? '&' : '?') + '_t=' + Date.now();
+    const res  = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    render(Array.isArray(data) ? data : []);
+  } catch(err) {
+    document.getElementById('planBody').innerHTML =
+      `<div style="text-align:center;padding:60px;color:var(--dim)">⚠️ Ladefehler: ${x(err.message)}</div>`;
+  }
+}
+
+// ── Uhr & Datum ──
+function p(n) { return String(n).padStart(2,'0'); }
+function x(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function tick() {
+  const n = new Date();
+  document.getElementById('clock').textContent = `${p(n.getHours())}:${p(n.getMinutes())}`;
+}
+function updateDate() {
+  const d = new Date();
+  const days   = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+  const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  const t = new Date(d); t.setHours(0,0,0,0);
+  t.setDate(t.getDate() + 3 - (t.getDay()+6)%7);
+  const w1   = new Date(t.getFullYear(), 0, 4);
+  const week = 1 + Math.round(((t - w1) / 86400000 - 3 + (w1.getDay()+6)%7) / 7);
+  document.getElementById('woche').textContent = `KW ${week} · ${d.getFullYear()}`;
+  document.getElementById('datum').textContent  =
+    `${days[d.getDay()]}, ${d.getDate()}. ${months[d.getMonth()]}`;
+}
+
+updateDate(); tick();
+setInterval(tick, 1000);
+load();
+setInterval(load, REFRESH_MS);
+</script>
+</body>
+</html>
