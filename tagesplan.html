@@ -17,26 +17,10 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html, body {
-    width: 960px;
-    min-height: 1080px;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    font-size: 14px;
-    overflow-x: hidden;
-  }
-
+  html, body { width: 960px; min-height: 1080px; background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; font-size: 14px; overflow-x: hidden; }
   .page { display: flex; flex-direction: column; min-height: 1080px; }
 
-  header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 11px 20px;
-    background: var(--surface);
-    border-bottom: 2px solid var(--accent);
-    flex-shrink: 0;
-  }
+  header { display: flex; align-items: center; justify-content: space-between; padding: 11px 20px; background: var(--surface); border-bottom: 2px solid var(--accent); flex-shrink: 0; }
   .logo { display: flex; align-items: center; gap: 9px; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 7px var(--accent); animation: pulse 2.5s ease-in-out infinite; }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.6)} }
@@ -61,7 +45,6 @@
   .nm-text .fn { font-size: 11px; color: var(--dim); }
 
   .slot { display: flex; flex-direction: column; gap: 3px; min-height: 50px; }
-
   .badge { flex: 1; border-radius: 6px; padding: 5px 9px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; min-height: 48px; }
   .badge::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,.06); border-radius:inherit; pointer-events:none; }
   .vm .badge { border-left: 3px solid rgba(224,144,48,.55); }
@@ -72,70 +55,89 @@
   .badge-note { font-size: 11px; opacity: .72; margin-top: 2px; line-height: 1.3; white-space: pre-line; font-style: italic; }
   .empty { border-radius: 6px; min-height: 48px; background: rgba(255,255,255,.02); border: 1px dashed rgba(255,255,255,.05); }
 
-  /* ═══════════════════════════════════════════════════
-     MARKIERUNG-FARBEN – exakt nach Visual Planning
-     Helle Originalfarben werden für dunkles Theme angepasst
-     ═══════════════════════════════════════════════════ */
+  /* ═══════════════════════════════════════════
+     MARKIERUNG-FARBEN – exakt nach Screenshot
+     Dunkle Varianten für TV-Anzeige
+     ═══════════════════════════════════════════ */
 
-  /* Gelb */
-  .m-anzeichnen-lueftung   { background: #a08800; color: #fff8cc; }
+  /* Gelb-Grün */
+  .m-anzeichnen-lueftung    { background: #8a9400; color: #fffff0; }
   /* Dunkelblau */
-  .m-anzeichnen-sanitaer   { background: #1a3a8a; color: #c8d8ff; }
+  .m-anzeichnen-sanitaer    { background: #0a1a7a; color: #c8d8ff; }
+  /* Lila Karo-Muster */
+  .m-arbeitspensum          { background: repeating-conic-gradient(#6600aa 0% 25%, #330066 0% 50%) 0 0 / 8px 8px; color: #f0ccff; }
+  /* Rosa Linien */
+  .m-arzttermin             { background: repeating-linear-gradient(0deg, #d06080 0px, #d06080 2px, #f0a0b8 2px, #f0a0b8 6px); color: #fff; }
   /* Hellgrün */
-  .m-baus-arbeiten         { background: #3a7a3a; color: #d0ffd0; }
+  .m-baus-arbeiten          { background: #c8f0c8; color: #1a4a1a; }
   /* Orange */
-  .m-bodenheizung          { background: #c06000; color: #ffe0b0; }
-  /* Hellgelb (gedimmt) */
-  .m-einlagen-lueftung     { background: #7a7200; color: #fffacc; }
-  /* Hellblau */
-  .m-einlagen-sanitaer     { background: #1a5a8a; color: #c8e8ff; }
-  /* Dunkelrot mit Muster */
-  .m-erdsondenleitung      { background: repeating-linear-gradient(45deg,#6a101033,#6a101033 5px,#8a151533 5px,#8a151533 10px); border:1px solid #8a1515; color:#ffcccc; }
-  /* Lila mit Muster */
-  .m-ferien                { background: repeating-linear-gradient(45deg,#7a10aa33,#7a10aa33 5px,#9910cc22 5px,#9910cc22 10px); border:1px dashed #bb30cc; color:#f0b0ff; }
+  .m-bodenheizung           { background: #d06000; color: #fff; }
+  /* Hellgelb */
+  .m-einlagen-lueftung      { background: #c8c000; color: #1a1a00; }
+  /* Blau */
+  .m-einlagen-sanitaer      { background: #1060d0; color: #fff; }
+  /* Rot Karo-Muster */
+  .m-erdsondenleitung        { background: repeating-conic-gradient(#cc0000 0% 25%, #880000 0% 50%) 0 0 / 8px 8px; color: #ffcccc; }
+  /* Lila Karo-Muster */
+  .m-ferien                 { background: repeating-conic-gradient(#9900cc 0% 25%, #660088 0% 50%) 0 0 / 8px 8px; color: #f0ccff; }
   /* Dunkelrot */
-  .m-fertigmontage-heizung { background: #8a1515; color: #fff; }
-  /* Lachs/Rosa */
-  .m-fertigmontage-lueftung{ background: #c06060; color: #fff; }
+  .m-fertigmontage-heizung  { background: #990000; color: #fff; }
+  /* Olivgrün */
+  .m-fertigmontage-lueftung { background: #6a8a30; color: #f0ffe0; }
   /* Schwarz */
-  .m-fertigmontage-sanitaer{ background: #2a2e38; color: #fff; border: 1px solid #444; }
-  /* Rosa */
-  .m-heizungssanierung     { background: #aa3060; color: #ffd0e0; }
-  /* Lachs */
-  .m-kellervert-heizung    { background: #c06060; color: #fff; }
-  /* Grau mit Muster */
-  .m-kellervert-sanitaer   { background: repeating-linear-gradient(45deg,#44484e33,#44484e33 5px,#55595f33 5px,#55595f33 10px); border:1px solid #666; color:#ddd; }
-  /* Grau */
-  .m-kompensation          { background: #555a66; color: #ddd; }
-  /* Rot */
-  .m-rohmontage-heizung    { background: #aa2020; color: #fff; }
-  /* Gelb */
-  .m-rohmontage-lueftung   { background: #907800; color: #fff8cc; }
+  .m-fertigmontage-sanitaer { background: #1c1e26; color: #fff; border: 1px solid #444; }
+  /* Lachs/Rosa */
+  .m-heizungssanierung      { background: #e07080; color: #fff; }
+  /* Interner Anlass – Diagonalstreifen blau */
+  .m-interner-anlass        { background: repeating-linear-gradient(45deg, #4060c0, #4060c0 4px, #6080e0 4px, #6080e0 10px); color: #fff; }
+  /* Hellrosa */
+  .m-kellervert-heizung     { background: #e0a0a0; color: #3a0000; }
   /* Hellblau */
-  .m-rohmontage-sanitaer   { background: #1a5888; color: #c8e4ff; }
+  .m-kellervert-sanitaer    { background: #90c8f0; color: #001a3a; }
+  /* Grau Diagonalstreifen */
+  .m-kompensation           { background: repeating-linear-gradient(45deg, #606060, #606060 4px, #808080 4px, #808080 10px); color: #fff; }
+  /* Lila Karo */
+  .m-krank                  { background: repeating-conic-gradient(#7700bb 0% 25%, #440077 0% 50%) 0 0 / 8px 8px; color: #f0ccff; }
+  /* Grün Diagonalstreifen */
+  .m-kurs                   { background: repeating-linear-gradient(45deg, #207020, #207020 4px, #409040 4px, #409040 10px); color: #fff; }
+  /* Rot Vertikalstreifen */
+  .m-lieferung              { background: repeating-linear-gradient(90deg, #cc2020, #cc2020 4px, #ee4040 4px, #ee4040 10px); color: #fff; }
+  /* Braun Diagonalstreifen */
+  .m-militaer               { background: repeating-linear-gradient(45deg, #7a5020, #7a5020 4px, #9a7040 4px, #9a7040 10px); color: #fff; }
   /* Pink/Magenta */
-  .m-service               { background: #c4127e; color: #fff; }
-  /* Türkis */
-  .m-umbau                 { background: #1e6868; color: #c8f0f0; }
-  /* Hellgrün */
-  .m-vorfabrizieren        { background: #4a7a1a; color: #d8ffb0; }
+  .m-service                { background: #cc007a; color: #fff; }
+  /* Hellrosa */
+  .m-personalverleih        { background: #f0a0c0; color: #3a0020; }
+  /* Rot */
+  .m-rohmontage-heizung     { background: #cc0000; color: #fff; }
+  /* Gelb */
+  .m-rohmontage-lueftung    { background: #cccc00; color: #1a1a00; }
+  /* Blau */
+  .m-rohmontage-sanitaer    { background: #2080e0; color: #fff; }
+  /* Orange Diagonalstreifen */
+  .m-schule                 { background: repeating-linear-gradient(45deg, #cc6000, #cc6000 4px, #ee8020 4px, #ee8020 10px); color: #fff; }
+  /* Dunkel-Türkis */
+  .m-umbau                  { background: #1e6868; color: #c8f0f0; }
+  /* Blau-Lila Diagonalstreifen */
+  .m-unfall                 { background: repeating-linear-gradient(45deg, #4040cc, #4040cc 4px, #6060ee 4px, #6060ee 10px); color: #fff; }
+  /* Hellcyan */
+  .m-vorfabrizieren         { background: #a0e8f0; color: #001a20; }
   /* Grün */
-  .m-wannen-setzen         { background: #2a7a2a; color: #ccffcc; }
-  /* Peach/Braun */
-  .m-werkstatt             { background: #a06020; color: #ffe0b0; }
-  /* Diverses */
-  .m-lieferung             { background: #3a6a9a; color: #c8e0ff; }
-  .m-personalverleih       { background: #7a4a9a; color: #e8d0ff; }
-  .m-wasserversorgung      { background: #1a5a7a; color: #b0e0f8; }
-  .m-zivilschutz           { background: repeating-linear-gradient(45deg,#2a2e3833,#2a2e3833 5px,#33374433 5px,#33374433 10px); border:1px solid #555; color:#bbb; }
-  .m-default               { background: #1e3a5a; color: #b0ccee; }
+  .m-wannen-setzen          { background: #00cc00; color: #001a00; }
+  /* Blau Karo */
+  .m-wasserversorgung       { background: repeating-conic-gradient(#0044aa 0% 25%, #0066cc 0% 50%) 0 0 / 8px 8px; color: #c8e0ff; }
+  /* Peach */
+  .m-werkstatt              { background: #e8c090; color: #2a1800; }
+  /* Dunkelgrün Diagonalstreifen */
+  .m-zivilschutz            { background: repeating-linear-gradient(45deg, #2a3a20, #2a3a20 4px, #3a5030 4px, #3a5030 10px); color: #c8d8b0; }
+  /* Fallback */
+  .m-default                { background: #1e3a5a; color: #b0ccee; }
 
   footer { flex-shrink: 0; padding: 7px 22px; font-size: 10px; color: var(--dim); display: flex; justify-content: space-between; border-top: 1px solid var(--border); background: var(--surface); letter-spacing: .04em; }
 </style>
 </head>
 <body>
 <div class="page">
-
   <header>
     <div class="logo"><div class="dot"></div>Gebr. Estermann AG</div>
     <div class="date-block">
@@ -161,15 +163,14 @@
     <span id="updated">–</span>
     <span>Visual Planning · Auto-Refresh alle 5 Min.</span>
   </footer>
-
 </div>
+
 <script>
 const JSON_URL = window.TAGESPLAN_JSON_URL
   || new URLSearchParams(location.search).get('json')
   || 'Tagesansicht.json';
 const REFRESH_MS = 5 * 60 * 1000;
 
-// Slot-Logik
 function getSlot(r) {
   const st = (r['Startzeit'] || '00:00').trim();
   const et = (r['Endzeit']   || '00:00').trim();
@@ -178,11 +179,12 @@ function getSlot(r) {
   return 'both';
 }
 
-// Markierung → CSS-Klasse (exakt nach Visual Planning Liste)
 function markClass(m) {
   const t = (m || '').toLowerCase().trim();
   if (t === 'anzeichnen lüftung')        return 'm-anzeichnen-lueftung';
   if (t === 'anzeichnen sanitär')        return 'm-anzeichnen-sanitaer';
+  if (t.includes('arbeitspensum'))       return 'm-arbeitspensum';
+  if (t === 'arzttermin')                return 'm-arzttermin';
   if (t === 'baus. arbeiten')            return 'm-baus-arbeiten';
   if (t === 'bodenheizung')              return 'm-bodenheizung';
   if (t === 'einlagen lüftung')          return 'm-einlagen-lueftung';
@@ -193,25 +195,30 @@ function markClass(m) {
   if (t === 'fertigmontage lüftung')     return 'm-fertigmontage-lueftung';
   if (t === 'fertigmontage sanitär')     return 'm-fertigmontage-sanitaer';
   if (t === 'heizungssanierung')         return 'm-heizungssanierung';
+  if (t === 'interner anlass')           return 'm-interner-anlass';
   if (t === 'kellerverteilung heizung')  return 'm-kellervert-heizung';
   if (t === 'kellerverteilung sanitär')  return 'm-kellervert-sanitaer';
   if (t === 'kompensation')              return 'm-kompensation';
+  if (t === 'krank')                     return 'm-krank';
+  if (t === 'kurs')                      return 'm-kurs';
   if (t === 'lieferung')                 return 'm-lieferung';
+  if (t === 'militär')                   return 'm-militaer';
   if (t === 'personalverleih')           return 'm-personalverleih';
   if (t === 'rohmontage heizung')        return 'm-rohmontage-heizung';
   if (t === 'rohmontage lüftung')        return 'm-rohmontage-lueftung';
   if (t === 'rohmontage sanitär')        return 'm-rohmontage-sanitaer';
+  if (t === 'schule')                    return 'm-schule';
   if (t === 'service')                   return 'm-service';
   if (t === 'umbau')                     return 'm-umbau';
+  if (t === 'unfall')                    return 'm-unfall';
   if (t === 'vorfabrizieren')            return 'm-vorfabrizieren';
   if (t === 'wannen setzen')             return 'm-wannen-setzen';
-  if (t.includes('werkstatt') || t.includes('lager')) return 'm-werkstatt';
   if (t === 'wasserversorgung')          return 'm-wasserversorgung';
+  if (t.includes('werkstatt') || t.includes('lager')) return 'm-werkstatt';
   if (t === 'zivilschutz')              return 'm-zivilschutz';
   return 'm-default';
 }
 
-// Badge HTML
 function badgeHtml(r) {
   const mark = (r['Markierung']  || '').trim();
   const bez  = (r['Bezeichnung'] || '').trim();
@@ -227,7 +234,6 @@ function badgeHtml(r) {
   </div>`;
 }
 
-// Gruppieren
 function group(records) {
   const map = new Map();
   records.forEach(r => {
@@ -245,7 +251,6 @@ function group(records) {
     (a.nn || a.vn).localeCompare(b.nn || b.vn, 'de'));
 }
 
-// Render
 function render(records) {
   const emps = group(records);
   const body = document.getElementById('planBody');
@@ -255,7 +260,7 @@ function render(records) {
     return;
   }
   emps.forEach((emp, i) => {
-    const row = document.createElement('div');
+    const row    = document.createElement('div');
     row.className = 'row';
     row.style.animationDelay = `${i * 28}ms`;
     const ini    = ((emp.nn?.[0]||'') + (emp.vn?.[0]||'')).toUpperCase();
@@ -278,7 +283,6 @@ function render(records) {
     `Aktualisiert: ${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
 }
 
-// Laden
 async function load() {
   try {
     const url  = JSON_URL + (JSON_URL.includes('?') ? '&' : '?') + '_t=' + Date.now();
