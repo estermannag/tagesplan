@@ -17,127 +17,181 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 960px; min-height: 1080px; background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; font-size: 14px; overflow-x: hidden; }
-  .page { display: flex; flex-direction: column; min-height: 1080px; }
 
-  header { display: flex; align-items: center; justify-content: space-between; padding: 11px 20px; background: var(--surface); border-bottom: 2px solid var(--accent); flex-shrink: 0; }
+  html, body {
+    width: 960px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    overflow: hidden;
+  }
+
+  .page {
+    display: flex;
+    flex-direction: column;
+    height: 1080px;
+  }
+
+  /* HEADER */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 20px;
+    background: var(--surface);
+    border-bottom: 2px solid var(--accent);
+    flex-shrink: 0;
+  }
   .logo { display: flex; align-items: center; gap: 9px; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
   .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 7px var(--accent); animation: pulse 2.5s ease-in-out infinite; }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.6)} }
   .date-block { text-align: center; }
-  .woche { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
-  .datum { font-size: 17px; font-weight: 700; font-family: 'Barlow Condensed', sans-serif; letter-spacing: .02em; }
-  .clock { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; color: var(--dim); min-width: 75px; text-align: right; letter-spacing: .05em; }
+  .woche { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+  .datum { font-size: 18px; font-weight: 700; font-family: 'Barlow Condensed', sans-serif; }
+  .clock { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: var(--dim); min-width: 80px; text-align: right; }
 
-  .col-headers { display: grid; grid-template-columns: 155px 1fr 1fr; padding: 7px 14px 5px; border-bottom: 1px solid var(--border); gap: 4px; }
-  .col-header { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); padding: 0 8px; }
+  /* COLUMN HEADERS */
+  .col-headers {
+    display: grid;
+    grid-template-columns: 170px 1fr 1fr;
+    padding: 6px 12px 5px;
+    border-bottom: 1px solid var(--border);
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .col-header { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); padding: 0 8px; }
   .col-header.vm { color: #e09030; }
   .col-header.nm { color: #4f8ef7; }
 
-  .scroll { flex: 1; overflow-y: auto; padding: 5px 14px 14px; scrollbar-width: thin; scrollbar-color: #2a2f45 transparent; }
+  /* TABLE BODY – fills remaining height */
+  .table-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 6px 12px;
+    gap: 4px;
+    overflow: hidden;
+  }
 
-  .row { display: grid; grid-template-columns: 155px 1fr 1fr; gap: 4px; margin-bottom: 4px; animation: fadeIn .3s ease both; }
+  /* ROW – equal height, fills full table */
+  .row {
+    display: grid;
+    grid-template-columns: 170px 1fr 1fr;
+    gap: 4px;
+    flex: 1;   /* all rows share height equally */
+    min-height: 0;
+    animation: fadeIn .3s ease both;
+  }
   @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
 
-  .name-cell { display: flex; align-items: center; gap: 8px; background: var(--surface); border-radius: 7px; padding: 7px 9px; min-height: 50px; }
-  .avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; background: var(--sur2); color: var(--dim); border: 1px solid var(--border); font-family: 'Barlow Condensed', sans-serif; }
-  .nm-text .sn { font-weight: 700; font-size: 14px; line-height: 1.2; }
-  .nm-text .fn { font-size: 11px; color: var(--dim); }
+  /* NAME CELL */
+  .name-cell {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 8px 11px;
+  }
+  .avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; flex-shrink: 0;
+    background: var(--sur2); color: var(--dim);
+    border: 1px solid var(--border);
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  /* 4. Nachname grösser + Vorname heller & grösser */
+  .nm-text .sn { font-weight: 800; font-size: 17px; line-height: 1.2; }
+  .nm-text .fn { font-size: 14px; color: #9aa8cc; font-weight: 500; margin-top: 1px; }
 
-  .slot { display: flex; flex-direction: column; gap: 3px; min-height: 50px; }
-  .badge { flex: 1; border-radius: 6px; padding: 5px 9px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; min-height: 48px; }
+  /* SLOT */
+  .slot { display: flex; flex-direction: column; gap: 3px; min-height: 0; }
+
+  /* BADGE */
+  .badge {
+    flex: 1;
+    border-radius: 7px;
+    padding: 6px 11px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative; overflow: hidden;
+    min-height: 0;
+  }
   .badge::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,.06); border-radius:inherit; pointer-events:none; }
-  .vm .badge { border-left: 3px solid rgba(224,144,48,.55); }
-  .nm .badge { border-left: 3px solid rgba(79,142,247,.55); }
-  .badge-mark { font-size: 9px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; opacity: .85; margin-bottom: 2px; font-family: 'Barlow Condensed', sans-serif; }
-  .badge-bez  { font-size: 13px; font-weight: 700; line-height: 1.2; }
-  .badge-adr  { font-size: 11px; opacity: .78; line-height: 1.2; }
-  .badge-note { font-size: 11px; opacity: .72; margin-top: 2px; line-height: 1.3; white-space: pre-line; font-style: italic; }
-  .empty { border-radius: 6px; min-height: 48px; background: rgba(255,255,255,.02); border: 1px dashed rgba(255,255,255,.05); }
+  .vm .badge { border-left: 3px solid rgba(224,144,48,.6); }
+  .nm .badge { border-left: 3px solid rgba(79,142,247,.6); }
+
+  .badge-mark {
+    font-size: 10px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase;
+    opacity: .85; margin-bottom: 1px;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  /* 1. Bezeichnung + Adresse auf einer Zeile */
+  .badge-loc {
+    font-size: 15px; font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .badge-loc .sep { opacity: .55; margin: 0 4px; font-weight: 400; }
+  .badge-loc .adr { font-weight: 500; opacity: .85; }
+
+  .badge-note { font-size: 12px; opacity: .75; margin-top: 2px; line-height: 1.3; white-space: pre-line; font-style: italic; }
+
+  .empty { border-radius: 7px; background: rgba(255,255,255,.02); border: 1px dashed rgba(255,255,255,.05); flex: 1; }
+
+  /* FOOTER */
+  footer {
+    flex-shrink: 0; padding: 6px 20px;
+    font-size: 11px; color: var(--dim);
+    display: flex; justify-content: space-between;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
 
   /* ═══════════════════════════════════════════
-     MARKIERUNG-FARBEN – exakt nach Screenshot
-     Dunkle Varianten für TV-Anzeige
+     MARKIERUNG-FARBEN – exakt nach Visual Planning
      ═══════════════════════════════════════════ */
-
-  /* Gelb-Grün */
   .m-anzeichnen-lueftung    { background: #8a9400; color: #fffff0; }
-  /* Dunkelblau */
   .m-anzeichnen-sanitaer    { background: #0a1a7a; color: #c8d8ff; }
-  /* Lila Karo-Muster */
   .m-arbeitspensum          { background: repeating-conic-gradient(#6600aa 0% 25%, #330066 0% 50%) 0 0 / 8px 8px; color: #f0ccff; }
-  /* Rosa Linien */
   .m-arzttermin             { background: repeating-linear-gradient(0deg, #d06080 0px, #d06080 2px, #f0a0b8 2px, #f0a0b8 6px); color: #fff; }
-  /* Hellgrün */
-  .m-baus-arbeiten          { background: #c8f0c8; color: #1a4a1a; }
-  /* Orange */
+  .m-baus-arbeiten          { background: #3a7a3a; color: #d0ffd0; }
   .m-bodenheizung           { background: #d06000; color: #fff; }
-  /* Hellgelb */
-  .m-einlagen-lueftung      { background: #c8c000; color: #1a1a00; }
-  /* Blau */
+  .m-einlagen-lueftung      { background: #b0a800; color: #fffce0; }
   .m-einlagen-sanitaer      { background: #1060d0; color: #fff; }
-  /* Rot Karo-Muster */
-  .m-erdsondenleitung        { background: repeating-conic-gradient(#cc0000 0% 25%, #880000 0% 50%) 0 0 / 8px 8px; color: #ffcccc; }
-  /* Lila Karo-Muster */
+  .m-erdsondenleitung       { background: repeating-conic-gradient(#cc0000 0% 25%, #880000 0% 50%) 0 0 / 8px 8px; color: #ffcccc; }
   .m-ferien                 { background: repeating-conic-gradient(#9900cc 0% 25%, #660088 0% 50%) 0 0 / 8px 8px; color: #f0ccff; }
-  /* Dunkelrot */
   .m-fertigmontage-heizung  { background: #990000; color: #fff; }
-  /* Olivgrün */
   .m-fertigmontage-lueftung { background: #6a8a30; color: #f0ffe0; }
-  /* Schwarz */
   .m-fertigmontage-sanitaer { background: #1c1e26; color: #fff; border: 1px solid #444; }
-  /* Lachs/Rosa */
-  .m-heizungssanierung      { background: #e07080; color: #fff; }
-  /* Interner Anlass – Diagonalstreifen blau */
+  .m-heizungssanierung      { background: #c05070; color: #fff; }
   .m-interner-anlass        { background: repeating-linear-gradient(45deg, #4060c0, #4060c0 4px, #6080e0 4px, #6080e0 10px); color: #fff; }
-  /* Hellrosa */
-  .m-kellervert-heizung     { background: #e0a0a0; color: #3a0000; }
-  /* Hellblau */
-  .m-kellervert-sanitaer    { background: #90c8f0; color: #001a3a; }
-  /* Grau Diagonalstreifen */
-  .m-kompensation           { background: repeating-linear-gradient(45deg, #606060, #606060 4px, #808080 4px, #808080 10px); color: #fff; }
-  /* Lila Karo */
+  .m-kellervert-heizung     { background: #c88080; color: #1a0000; }
+  .m-kellervert-sanitaer    { background: #5090c8; color: #fff; }
+  .m-kompensation           { background: repeating-linear-gradient(45deg, #505050, #505050 4px, #707070 4px, #707070 10px); color: #fff; }
   .m-krank                  { background: repeating-conic-gradient(#7700bb 0% 25%, #440077 0% 50%) 0 0 / 8px 8px; color: #f0ccff; }
-  /* Grün Diagonalstreifen */
   .m-kurs                   { background: repeating-linear-gradient(45deg, #207020, #207020 4px, #409040 4px, #409040 10px); color: #fff; }
-  /* Rot Vertikalstreifen */
   .m-lieferung              { background: repeating-linear-gradient(90deg, #cc2020, #cc2020 4px, #ee4040 4px, #ee4040 10px); color: #fff; }
-  /* Braun Diagonalstreifen */
   .m-militaer               { background: repeating-linear-gradient(45deg, #7a5020, #7a5020 4px, #9a7040 4px, #9a7040 10px); color: #fff; }
-  /* Pink/Magenta */
-  .m-service                { background: #cc007a; color: #fff; }
-  /* Hellrosa */
-  .m-personalverleih        { background: #f0a0c0; color: #3a0020; }
-  /* Rot */
+  .m-personalverleih        { background: #c87090; color: #fff; }
   .m-rohmontage-heizung     { background: #cc0000; color: #fff; }
-  /* Gelb */
-  .m-rohmontage-lueftung    { background: #cccc00; color: #1a1a00; }
-  /* Blau */
+  .m-rohmontage-lueftung    { background: #aaaa00; color: #1a1a00; }
   .m-rohmontage-sanitaer    { background: #2080e0; color: #fff; }
-  /* Orange Diagonalstreifen */
   .m-schule                 { background: repeating-linear-gradient(45deg, #cc6000, #cc6000 4px, #ee8020 4px, #ee8020 10px); color: #fff; }
-  /* Dunkel-Türkis */
+  .m-service                { background: #cc007a; color: #fff; }
   .m-umbau                  { background: #1e6868; color: #c8f0f0; }
-  /* Blau-Lila Diagonalstreifen */
   .m-unfall                 { background: repeating-linear-gradient(45deg, #4040cc, #4040cc 4px, #6060ee 4px, #6060ee 10px); color: #fff; }
-  /* Hellcyan */
-  .m-vorfabrizieren         { background: #a0e8f0; color: #001a20; }
-  /* Grün */
-  .m-wannen-setzen          { background: #00cc00; color: #001a00; }
-  /* Blau Karo */
+  .m-vorfabrizieren         { background: #3a8870; color: #d0fff4; }
+  .m-wannen-setzen          { background: #009900; color: #e0ffe0; }
   .m-wasserversorgung       { background: repeating-conic-gradient(#0044aa 0% 25%, #0066cc 0% 50%) 0 0 / 8px 8px; color: #c8e0ff; }
-  /* Peach */
-  .m-werkstatt              { background: #e8c090; color: #2a1800; }
-  /* Dunkelgrün Diagonalstreifen */
+  .m-werkstatt              { background: #c09050; color: #1a0e00; }
   .m-zivilschutz            { background: repeating-linear-gradient(45deg, #2a3a20, #2a3a20 4px, #3a5030 4px, #3a5030 10px); color: #c8d8b0; }
-  /* Fallback */
   .m-default                { background: #1e3a5a; color: #b0ccee; }
-
-  footer { flex-shrink: 0; padding: 7px 22px; font-size: 10px; color: var(--dim); display: flex; justify-content: space-between; border-top: 1px solid var(--border); background: var(--surface); letter-spacing: .04em; }
 </style>
 </head>
 <body>
 <div class="page">
+
   <header>
     <div class="logo"><div class="dot"></div>Gebr. Estermann AG</div>
     <div class="date-block">
@@ -153,18 +207,16 @@
     <div class="col-header nm">◑ Nachmittag</div>
   </div>
 
-  <div class="scroll">
-    <div id="planBody">
-      <div style="text-align:center;padding:60px;color:var(--dim)">⏳ Wird geladen…</div>
-    </div>
+  <div class="table-body" id="planBody">
+    <div style="display:flex;align-items:center;justify-content:center;flex:1;color:var(--dim);font-size:18px;">⏳ Wird geladen…</div>
   </div>
 
   <footer>
     <span id="updated">–</span>
     <span>Visual Planning · Auto-Refresh alle 5 Min.</span>
   </footer>
-</div>
 
+</div>
 <script>
 const JSON_URL = window.TAGESPLAN_JSON_URL
   || new URLSearchParams(location.search).get('json')
@@ -186,7 +238,7 @@ function markClass(m) {
   if (t.includes('arbeitspensum'))       return 'm-arbeitspensum';
   if (t === 'arzttermin')                return 'm-arzttermin';
   if (t === 'baus. arbeiten')            return 'm-baus-arbeiten';
-  if (t === 'bodenheizung')              return 'm-bodenheizung';
+  if (t === 'bodenheizung')             return 'm-bodenheizung';
   if (t === 'einlagen lüftung')          return 'm-einlagen-lueftung';
   if (t === 'einlagen sanitär')          return 'm-einlagen-sanitaer';
   if (t === 'erdsondenleitung')          return 'm-erdsondenleitung';
@@ -214,7 +266,7 @@ function markClass(m) {
   if (t === 'vorfabrizieren')            return 'm-vorfabrizieren';
   if (t === 'wannen setzen')             return 'm-wannen-setzen';
   if (t === 'wasserversorgung')          return 'm-wasserversorgung';
-  if (t.includes('werkstatt') || t.includes('lager')) return 'm-werkstatt';
+  if (t.includes('werkstatt')||t.includes('lager')) return 'm-werkstatt';
   if (t === 'zivilschutz')              return 'm-zivilschutz';
   return 'm-default';
 }
@@ -226,11 +278,19 @@ function badgeHtml(r) {
   let notiz  = (r['Notiz']       || '').trim();
   if (notiz.startsWith('VPEXPORT:')) notiz = '';
   const cls  = markClass(mark || notiz);
+
+  // 1. Bezeichnung + Adresse auf einer Zeile
+  const locHtml = (bez || adr)
+    ? `<span class="badge-loc">
+        ${bez ? x(bez) : ''}
+        ${bez && adr ? `<span class="sep">·</span><span class="adr">${x(adr)}</span>` : (adr ? x(adr) : '')}
+       </span>`
+    : '';
+
   return `<div class="badge ${cls}">
-    ${mark  ? `<span class="badge-mark">${x(mark)}</span>`  : ''}
-    ${bez   ? `<span class="badge-bez">${x(bez)}</span>`    : ''}
-    ${adr   ? `<span class="badge-adr">${x(adr)}</span>`    : ''}
-    ${notiz ? `<span class="badge-note">${x(notiz)}</span>` : ''}
+    ${mark   ? `<span class="badge-mark">${x(mark)}</span>` : ''}
+    ${locHtml}
+    ${notiz  ? `<span class="badge-note">${x(notiz)}</span>` : ''}
   </div>`;
 }
 
@@ -255,14 +315,16 @@ function render(records) {
   const emps = group(records);
   const body = document.getElementById('planBody');
   body.innerHTML = '';
+
   if (!emps.length) {
-    body.innerHTML = `<div style="text-align:center;padding:60px;color:var(--dim)">📭 Keine Einträge für heute</div>`;
+    body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;flex:1;color:var(--dim);font-size:18px;">📭 Keine Einträge für heute</div>`;
     return;
   }
+
   emps.forEach((emp, i) => {
     const row    = document.createElement('div');
     row.className = 'row';
-    row.style.animationDelay = `${i * 28}ms`;
+    row.style.animationDelay = `${i * 25}ms`;
     const ini    = ((emp.nn?.[0]||'') + (emp.vn?.[0]||'')).toUpperCase();
     const vmHtml = emp.vm.length ? emp.vm.map(badgeHtml).join('') : `<div class="empty"></div>`;
     const nmHtml = emp.nm.length ? emp.nm.map(badgeHtml).join('') : `<div class="empty"></div>`;
@@ -278,6 +340,7 @@ function render(records) {
       <div class="slot nm">${nmHtml}</div>`;
     body.appendChild(row);
   });
+
   const n = new Date();
   document.getElementById('updated').textContent =
     `Aktualisiert: ${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
@@ -292,7 +355,7 @@ async function load() {
     render(Array.isArray(data) ? data : []);
   } catch(err) {
     document.getElementById('planBody').innerHTML =
-      `<div style="text-align:center;padding:60px;color:var(--dim)">⚠️ Ladefehler: ${x(err.message)}</div>`;
+      `<div style="display:flex;align-items:center;justify-content:center;flex:1;color:var(--dim);font-size:16px;">⚠️ Ladefehler: ${x(err.message)}</div>`;
   }
 }
 
